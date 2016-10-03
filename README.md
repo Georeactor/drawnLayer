@@ -1,15 +1,14 @@
 ### Based on the code for <a href="http://crayonmap.herokuapp.com">Crayon Map</a>
 
-# drawn-layer
+# drawnLayer
 
 A canvas tile layer using OpenStreetMap data and Mapzen's vector tiles, to help you make
-colorful, custom-rendered maps.
+colorful, custom-rendered maps. The coordinates of GeoJSON shapes are converted to relative pixel integers
+so you can draw them directly on canvas tiles.
 
-Runs on Google Maps and Leaflet maps.
+Runs on Google Maps API and Leaflet maps.
 
-Library includes GitHub's open source <a href="https://github.com/github/fetch">polyfill for fetch</a>
-
-Minified versions created by jsmin.
+Library includes GitHub's open source <a href="https://github.com/github/fetch">polyfill for fetch</a>. Minified versions created by jsmin.
 
 ## <a href="https://georeactor.github.io/drawnLayer/">Leaflet Example</a>
 
