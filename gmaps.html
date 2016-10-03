@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Google Maps API and drawnLayer</title>
+    <style>
+      html, body, #map {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script src="./gmaps.drawnLayer.js"></script>
+    <script>
+// Generic Google Maps setup
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 10,
+    center: {lat: 41.850, lng: -87.650}
+  });
+
+  // pass these values
+  var dl = new DrawnLayer('5Vy5RHT', 'landuse', function(geojson, canvasctx) {
+    geojson.features.map(function(feature) {
+      if (feature.properties.kind === 'residential') {
+        CustomDrawFunction(feature.geometry, canvasctx);
+      }
+    });
+  });
+  map.overlayMapTypes.insertAt(1, dl);
+}
+
+// your custom renderer
+function CustomDrawFunction(geometry, canvasctx) {
+  // only draw outer ring of polygons
+  var coords = (geometry.type === 'Polygon') ? geometry.coordinates[0] : geometry.coordinates;
+
+  // draw shape
+  canvasctx.beginPath();
+  canvasctx.moveTo(coords[0].x, coords[0].y);
+  for (var pt = 1; pt < coords.length; pt++) {
+    canvasctx.lineTo(coords[pt].x, coords[pt].y);
+  }
+  canvasctx.closePath();
+
+  // fill in the shape
+  canvasctx.fillStyle = 'darkgreen';
+  canvasctx.fill();
+
+  // if you just wanted to draw an outline
+  canvasctx.strokeStyle = 'darkgreen';
+  canvasctx.stroke();
+}
+    </script>
+    <script async defer src="//maps.googleapis.com/maps/api/js?callback=initMap">
+    </script>
+  </body>
+</html>

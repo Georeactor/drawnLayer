@@ -2,14 +2,16 @@
 
 # drawn-layer
 
-An extension of Leaflet's canvas tile layer and Mapzen's vector tiles, to help you make
+A canvas tile layer using OpenStreetMap data and Mapzen's vector tiles, to help you make
 colorful, custom-rendered maps.
+
+Runs on Google Maps and Leaflet maps.
 
 Library includes GitHub's open source <a href="https://github.com/github/fetch">polyfill for fetch</a>
 
-Minified version created by jsmin.
+Minified versions created by jsmin.
 
-## Example
+## <a href="https://georeactor.github.io/drawnLayer/">Leaflet Example</a>
 
 Suppose you wanted to draw shapes where OpenStreetMap returned landuse with ```kind=residential```
 
@@ -46,6 +48,26 @@ function CustomDrawFunction(geometry, canvasctx) {
   // if you just wanted to draw an outline
   canvasctx.strokeStyle = 'darkgreen';
   canvasctx.stroke();
+}
+```
+
+## <a href="https://georeactor.github.io/drawnLayer/gmaps.html">Google Maps Example</a>
+
+```javascript
+var map = new google.maps.Map(document.getElementById('map'), { ... });
+
+// pass these values
+var dl = new DrawnLayer('MAPZEN_KEY', 'TILE_LAYERS', function(geojson, canvasctx) {
+  geojson.features.map(function(feature) {
+    if (feature.properties.kind === 'residential') {
+      CustomDrawFunction(feature.geometry, canvasctx);
+    }
+  });
+});
+map.overlayMapTypes.insertAt(1, dl);
+
+function CustomDrawFunction(geometry, canvasctx) {
+  ... (see Leaflet example)
 }
 ```
 
